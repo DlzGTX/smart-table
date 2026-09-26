@@ -77,9 +77,7 @@ const applySearching = initSearching(
     sampleTable.search.elements.search.name
 )
 
-const applyFiltering = initFiltering(sampleTable.filter.elements, {    // передаём элементы фильтра
-    searchBySeller: indexes.sellers                             // для элемента с именем searchBySeller устанавливаем массив продавцов
-}); 
+const {applyFiltering, updateIndexes} = initFiltering(sampleTable.filter.elements);
 
 const applySorting = initSorting([        // Нам нужно передать сюда массив элементов, которые вызывают сортировку, чтобы изменять их визуальное представление
     sampleTable.header.elements.sortByDate,
@@ -91,6 +89,10 @@ appRoot.appendChild(sampleTable.container);
 
 async function init() {
     const indexes = await api.getIndexes();
+
+    updateIndexes(sampleTable.filter.elements, {
+        searchBySeller: indexes.sellers
+    });
 }
 
 init().then(render);
